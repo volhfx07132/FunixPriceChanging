@@ -4,7 +4,9 @@ contract Session is Main{
     struct Items{
         uint IdItem;
         string nameItem;
+        string imageHash;
         uint firstPrice;
+        string itemDescription;
         uint countPaticipantJoinSesstion;
         uint[] listPriceOfPaticipant;
         uint[] listPriceDeviation;
@@ -25,12 +27,18 @@ contract Session is Main{
         require(itemsList[_IdItem].statusSesstion == _statusSesstion, "Wrong status of sesstion");
         _;
     }
-    
-    function addItems(string memory _nameItem, uint _firstPrice, uint _timeFinishSesstionEachOtherproduct) public onlyAdmin{
-        uint[] memory emptyArray;
-        address[] memory amptyAddressArray;
-        itemsList.push(Items(index, _nameItem, _firstPrice, 0, emptyArray, emptyArray, 0, amptyAddressArray, StatusSesstion.START, 0, _timeFinishSesstionEachOtherproduct));
-        index++;
+
+    function addData() public{
+        for(uint i = 0 ; i < listHashImage.length ; i++){
+            uint[] memory emptyArray;
+            address[] memory amptyAddressArray;
+            itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, emptyArray, emptyArray, 0, amptyAddressArray, StatusSesstion.START, 0, 100));
+            index++;
+        }
+    }
+
+    function getDataX(uint _IdItem) public view returns(uint){
+        return itemsList[_IdItem].firstPrice +1;
     }
 
     function startSesstion(uint _IdItem) public onlyAdmin {
@@ -42,7 +50,7 @@ contract Session is Main{
         itemsList[_IdItem].statusSesstion = StatusSesstion.DONE;
     }
 
-    function register(address _address) public onlyAdmin(){
+    function register(address _address, string memory _fullName, string memory _email) public onlyAdmin(){
         bool checkStatusAddress = false;
         if(_address == admin){
             revert("Account of admin can't register");
@@ -59,6 +67,9 @@ contract Session is Main{
             if(!checkStatusAddress){
                 totalAccounts.push(_address);
                 paticipants[_address].IDPaticipant = indexPaticipant;  
+                paticipants[_address].addressAccount = _address;
+                paticipants[_address].fullName = _fullName;
+                paticipants[_address].email = _email;
                 paticipants[_address].countPricedSesstion = 0;
                 for(uint i = 0 ; i < index ; i++){
                     DataChange memory dataChange = DataChange({IdItem: i, priceDeviation: 0, valueChangePricingOtherPaticipant: 0 , numberChangePricingOtherPaticipant: 0});
@@ -88,6 +99,7 @@ contract Session is Main{
         }
         uint result = totalPriceOfPaticipantAbove / (totalPriceOfPaticipantUnderLeft - totalPriceOfPaticipantUnderRight);
         itemsList[_IdItem].valueChangePricing = result;
+        //emit LogFinishPriceItems(_IdItem,  itemsList[_IdItem].nameItem, itemsList[_IdItem].firstPrice, itemsList[_IdItem].itemDescription, itemsList[_IdItem].statusSesstion, itemsList[_IdItem].valueChangePricing);
     }
 
     function accumulatedDeviation(uint _newPriceOfParticipan, uint _IdItem) public notOnlyAdmin checkStatus(StatusSesstion.PRICING, _IdItem){
@@ -135,9 +147,11 @@ contract Session is Main{
     function getDataItems(uint _IdItem) public view returns(uint) {
        return itemsList[_IdItem].valueChangePricing;
     }
+
     function getStatusSesstion(uint _IdItem) public view returns(StatusSesstion){
         return itemsList[_IdItem].statusSesstion;
     }
+
     function setPriceOfItem(uint _IdItem, uint _price) public checkStatus(StatusSesstion.DONE, _IdItem){
          itemsList[_IdItem].valueChangePricing = _price;
     }
