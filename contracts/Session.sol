@@ -19,7 +19,7 @@ contract Session is Main{
     
     mapping(address => Paticipant) private paticipants;
     Items[] public itemsList;
-    uint index = 0;
+    uint public index = 0;
     address[] public totalAccounts;
     uint indexPaticipant = 0;
     
@@ -30,17 +30,49 @@ contract Session is Main{
 
     function addData() public{
         for(uint i = 0 ; i < listHashImage.length ; i++){
-            uint[] memory emptyArray;
-            address[] memory amptyAddressArray;
-            itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, emptyArray, emptyArray, 0, amptyAddressArray, StatusSesstion.START, 0, 100));
-            index++;
+            bool statusAdd;
+            for(uint j = 0 ; j < itemsList.length ; j++){
+               statusAdd = stringsEquals(itemsList[j].imageHash, listHashImage[i]);
+               if(statusAdd){
+                   break;
+               }
+            }
+            if(!statusAdd){
+                uint[] memory emptyArray;
+                address[] memory amptyAddressArray;
+                itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, emptyArray, emptyArray, 0, amptyAddressArray, StatusSesstion.START, 0, 100));
+                index++;
+            }  
         }
     }
 
-    function getDataX(uint _IdItem) public view returns(uint){
-        return itemsList[_IdItem].firstPrice +1;
+    function convertStateToString(uint _IdItem) public view returns(string memory){
+        if(itemsList[_IdItem].statusSesstion == StatusSesstion.START){
+            return "Not Start";
+        }else{
+            if(itemsList[_IdItem].statusSesstion == StatusSesstion.PRICING){
+                return "Started";
+            }else{
+                return "Finish";
+            }
+        }
     }
 
+    function stringsEquals(string memory s1, string memory s2) private pure returns (bool) {
+        bytes memory b1 = bytes(s1);
+        bytes memory b2 = bytes(s2);
+        uint256 l1 = b1.length;
+        if (l1 != b2.length) return false;
+        for (uint256 i=0; i<l1; i++) {
+            if (b1[i] != b2[i]) return false;
+        }
+        return true;
+    }
+
+    function getLengthItems() public view returns(uint) {
+        return itemsList.length;
+    }
+    
     function startSesstion(uint _IdItem) public onlyAdmin {
         itemsList[_IdItem].statusSesstion = StatusSesstion.PRICING;
         itemsList[_IdItem].timeSesstionEachOtherproduct = block.timestamp;
