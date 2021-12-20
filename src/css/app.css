@@ -1,8 +1,15 @@
-body {
-  padding-top: 5px;
+body{
+  padding-top: 40px;
+  padding-bottom: 120px;
 }
-
-.welcome {
+.footer{
+  position: absolute;
+  left: 0px;
+  bottom: 0px;
+  width: 100%;
+  height: 114px;
+}
+.welcome{
   font-size: 18px;
   display: inline;
   padding: 5px;
@@ -12,6 +19,12 @@ body {
   height:230px;
   position: relative;
   left:850px;
-  top: -230px;
-  margin-bottom: -230px;
+  top: -200px;
+  margin-bottom: -200px;
+}
+.modal-header, h4, .close {
+  background-color: #5cb85c;
+  color:white !important;
+  text-align: center;
+  font-size: 30px;
 }

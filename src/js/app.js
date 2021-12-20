@@ -5,6 +5,9 @@ App = {
   loading: false,
 
   init: function() {    
+    $(document).ready(function(){
+      $("#login").modal();
+    })
     return App.initWeb3();
   },
 
