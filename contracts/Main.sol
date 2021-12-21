@@ -12,6 +12,7 @@ contract Main{
         address addressAccount;
         string fullName;
         string email;
+        string passwordAccount;
         uint countPricedSesstion; 
         DataChange[] listDataChange;
     }

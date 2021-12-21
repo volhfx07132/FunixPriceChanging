@@ -17,7 +17,7 @@ contract Session is Main{
         uint timeFinishSesstionEachOtherproduct;
     }
     
-    mapping(address => Paticipant) private paticipants;
+    mapping(address => Paticipant) public paticipants;
     Items[] public itemsList;
     uint public index = 0;
     address[] public totalAccounts;
@@ -86,7 +86,7 @@ contract Session is Main{
         itemsList[_IdItem].statusSesstion = StatusSesstion.DONE;
     }
 
-    function register(address _address, string memory _fullName, string memory _email) public onlyAdmin(){
+    function registerAccount(address _address, string memory _fullName, string memory _email, string memory _passwordAccount) public{
         bool checkStatusAddress = false;
         if(_address == admin){
             revert("Account of admin can't register");
@@ -106,6 +106,7 @@ contract Session is Main{
                 paticipants[_address].addressAccount = _address;
                 paticipants[_address].fullName = _fullName;
                 paticipants[_address].email = _email;
+                 paticipants[_address].passwordAccount = _passwordAccount;
                 paticipants[_address].countPricedSesstion = 0;
                 for(uint i = 0 ; i < index ; i++){
                     DataChange memory dataChange = DataChange({IdItem: i, priceDeviation: 0, valueChangePricingOtherPaticipant: 0 , numberChangePricingOtherPaticipant: 0});

@@ -7,6 +7,8 @@ App = {
   init: function() {    
     $(document).ready(function(){
       $("#login").modal();
+      $("#login-button").show();
+      $("#logout-button").hide();
     })
     return App.initWeb3();
   },
@@ -101,6 +103,87 @@ App = {
     }
     articlesRow.append(articleTemplate.html());
   },
+  loginAccount: function(){  
+    var _emailLogin = $("#emailLogin").val();
+    var _passwordLogin = $("#passwordLogin").val();
+    if(_emailLogin.trim() != "" && _passwordLogin.trim() != ""){
+       if(_emailLogin.indexOf("@") > -1){
+        if(_passwordLogin.length >= 8){
+          App.contracts.Session.deployed().then(function(instance){
+            return instance.paticipants($('#account').text()).then(function(paticipant){
+              if(_emailLogin == paticipant[3]){
+                 if(_passwordLogin == paticipant[4]){
+                  $('#login').modal('hide');
+                  $("#nameAccount").text(paticipant[2]);
+                  $("#login-button").hide();
+                  $("#logout-button").show();
+                 }else{
+                  alert("Password not match\nPlease!Check the box input")
+                 }
+              }else{
+                alert("Email not exist\nPlease! Click sign up to register a new account")
+              }
+            })
+          })
+        }else{
+          alert("Length of password great equal then 8 \nPlease!Check the box input")
+        }
+       }else{
+        alert("Wrong email\nPlease!Check the box input")
+       }
+    }else{
+      alert("Don't empty the box input\nPlease!Check the box input")
+    }
+  },
+
+  registerAccount: function(){
+    var _fullNameRegsiter = $("#fullNameRegsiter").val();
+    var _gmailRegsiter = $("#gmailRegsiter").val();
+    var _passwordRegsiter = $("#passwordRegsiter").val();
+    var _rePasswordRegsiter = $("#rePasswordRegsiter").val();
+    if(_fullNameRegsiter.trim() != "" && _gmailRegsiter.trim() != "" && _passwordRegsiter.trim() != "" && _rePasswordRegsiter.trim() != ""){
+      if(_passwordRegsiter == _rePasswordRegsiter){
+        if(_gmailRegsiter.indexOf("@") > -1){
+          if(_passwordRegsiter.length >= 8){
+            App.contracts.Session.deployed().then(function(instance){
+              return instance.admin().then(function(adminAccount){
+                console.log(adminAccount);
+                console.log(App.account);
+                return instance.registerAccount($('#account').text(), _fullNameRegsiter, _gmailRegsiter, _passwordRegsiter).then(function(){
+                  $('#sign-up').modal('hide');
+                  return instance.paticipants($('#account').text()).then(function(paticipant){
+                    $("#nameAccount").text(paticipant[2]);
+                    $("#login-button").hide();
+                    $("#logout-button").show();
+                  })
+                }).then(function(result) {
+       
+                }).catch(function(err) {
+                  $('#sign-up').modal('hide');
+                  alert("This address Really existed\nPlease! Choose an other account")
+                });  
+              })
+           })
+          }else{
+            alert("Length of password great equal then 8 \nPlease!Check the box input")
+          }
+        }else{
+          alert("Wrong email\nPlease!Check the box input")
+        }
+      }else{
+        alert("Password not match\nPlease!Check the box input")
+      }
+    }else{
+      // alert("So Ok");
+      // $('#sign-up').modal('hide')
+      alert("Don't empty the box input\nPlease!Check the box input")
+    }
+  },
+  logoutAccount: function(){
+    $("#nameAccount").text("Full name");
+    $("#login-button").show();
+    $("#logout-button").hide();
+  }
   
 };
 
