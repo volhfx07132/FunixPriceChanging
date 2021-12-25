@@ -8,7 +8,6 @@ contract Main{
     }
 
     struct Paticipant{
-        uint IDPaticipant;
         address addressAccount;
         string fullName;
         string email;
@@ -18,7 +17,7 @@ contract Main{
     }
     address public admin;
     bool status = false;
-    enum StatusSesstion {START, PRICING, DONE}
+    enum StatusSesstion {START, PRICING, ENDING ,DONE}
    
     constructor(){
         admin = msg.sender;
