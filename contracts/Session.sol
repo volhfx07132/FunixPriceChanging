@@ -55,7 +55,7 @@ contract Session is Main{
             if(!statusAdd){
                 uint[] memory emptyArray;
                 address[] memory amptyAddressArray;
-                itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, emptyArray, emptyArray, 0, amptyAddressArray, StatusSesstion.START, 0, 100));
+                itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, emptyArray, emptyArray, 0, amptyAddressArray, StatusSesstion.START, 0, 200));
                 index++;
             }  
         }

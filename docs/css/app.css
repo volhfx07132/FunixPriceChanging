@@ -1,5 +1,5 @@
 body{
-  padding-top: 40px;
+  padding-top: 5px;
   padding-bottom: 120px;
 }
 .footer{
@@ -15,11 +15,10 @@ body{
   padding: 5px;
 }
 .panel_image{
-  width:230px;
-  height:230px;
+  width:200px;
+  height:200px;
   position: relative;
-  left:850px;
-  top: -200px;
+  top: -240px;
   margin-bottom: -200px;
 }
 .modal-header, h4, .close {
@@ -28,3 +27,7 @@ body{
   text-align: center;
   font-size: 30px;
 }
+.panel-body{
+ height:240px;
+}
+
