@@ -37,6 +37,10 @@ contract Session is Main{
     event LogStopSession(uint indexed _IdItems, string _nameItem, uint _firstPrice);
     event LogChainPriceOfSession(uint indexed _IdItems, string _nameItem, string _fullName, uint _valueChangePricing);
 
+    constructor(){
+        addData();
+    }
+
     function createNewItem(string memory _nameItem, string memory _imageHash, string memory _itemDescription, uint _firstPrice) public onlyAdmin {
         listNameOfItems.push(_nameItem);
         listHashImage.push(_imageHash);
@@ -152,11 +156,7 @@ contract Session is Main{
                 revert("This address Really existed");
             }
         }   
-    }
-    
-    
-
-    
+    }  
     function getProposedPrice(uint _IdItem) public{
         if(itemsList[_IdItem].statusSesstion != StatusSesstion.ENDING){
             revert("Wrong status of sesstion");
