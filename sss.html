@@ -6,8 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
 </head>
-    <h3>Luxury, high-class - Unique and attractive colors <br/>Take professional photos - Set of 3 cameras that support Zoom up to 30X <br/>Take quick, accurate notes with the new generation S-Pen</h3>
-    <h3></h3>
+
+    <h1 id="demo" onclick="clickMe()">100</h1>
 <body>
 </body>
+<script>
+      
+
+function displayHello() {
+  $("#demo").text($("#demo").text() -1);
+}
+function clickMe(){
+    setInterval(displayHello, 1000);
+}
+</script>
+
+  <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+  <!-- Include all compiled plugins (below), or include individual files as needed -->
+  <script src="js/bootstrap.min.js"></script>
+  <script src="js/web3.min.js"></script>
+  <script src="js/truffle-contract.js"></script>
+  <script src="js/app.js"></script>
+
 </html>

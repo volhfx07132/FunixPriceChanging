@@ -21,10 +21,12 @@ contract Session is Main{
     Items[] public itemsList;
     uint public index = 0;
     address[] public totalAccounts;
-    string[] public listNameOfItems  = ["Samsung Galaxy Note20"];
+    string[] public listNameOfItems = ["Samsung Galaxy Note20"];
     string[] public listHashImage = ["QmNqVYtH4mXG69LnAYE4xy1hgff1ZkYBtvVcCDyA4RPi6i"];
     string[] public listInformationOfImage = ["Luxury high-class - Unique and attractive colors.<br/>Take professional photos - Set of 3 cameras that support Zoom as far as 30X.<br/>Take notes quickly and accurately with the new generation S-Pen.<br/>Ultimate gaming - Powerful 7nm Exynos 990, outstanding processing performance.<br/>Samsung Note 20 Ultra 5G phone - Luxury, outstanding performance.<br/>Monolithic aluminum frame design, luxurious tempered glass back."];
     uint[] public listPrice = [930];
+    uint[] public emptyArray1 = [0];
+    uint[] public emptyArray2 = [0];
     
     modifier checkStatus(StatusSesstion _statusSesstion, uint _IdItem){
         require(itemsList[_IdItem].statusSesstion == _statusSesstion, "Wrong status of sesstion");
@@ -55,7 +57,7 @@ contract Session is Main{
             if(!statusAdd){
                 uint[] memory emptyArray;
                 address[] memory amptyAddressArray;
-                itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, emptyArray, emptyArray, 0, amptyAddressArray, StatusSesstion.START, 0, 200));
+                itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, emptyArray, emptyArray, 0, amptyAddressArray, StatusSesstion.START, 0, 600));
                 index++;
             }  
         }
@@ -103,10 +105,21 @@ contract Session is Main{
         emit LogStartSession(_IdItem,  itemsList[_IdItem].nameItem,  itemsList[_IdItem].firstPrice);
     }
 
-    
     function setFinalPriceOfItem(uint _IdItem, uint _price) public onlyAdmin {
          itemsList[_IdItem].firstPrice = _price;
          itemsList[_IdItem].statusSesstion = StatusSesstion.DONE;
+    }
+
+    function showDataPrice(uint _IdItem, address _address) public view returns(uint[] memory){
+        return paticipants[_address].listDataChange[_IdItem].priceDeviation;
+    }
+
+    function showDataDeviation(uint _IdItem, address _address) public view returns(uint[] memory){
+        return paticipants[_address].listDataChange[_IdItem].valueChangePricingOtherPaticipant;
+    }
+
+    function getAddressChangedPriceOfItems(uint _IdItem) public view returns(address[] memory){
+         return itemsList[_IdItem].checkAccount;
     }
 
     function registerAccount(address _address, string memory _fullName, string memory _email, string memory _passwordAccount) public{
@@ -130,8 +143,9 @@ contract Session is Main{
                 paticipants[_address].email = _email;
                 paticipants[_address].passwordAccount = _passwordAccount;
                 paticipants[_address].countPricedSesstion = 0;
+                
                 for(uint i = 0 ; i < index ; i++){
-                    DataChange memory dataChange = DataChange({IdItem: i, priceDeviation: 0, valueChangePricingOtherPaticipant: 0 , numberChangePricingOtherPaticipant: 0});
+                    DataChange memory dataChange = DataChange({IdItem: i, priceDeviation: emptyArray1, valueChangePricingOtherPaticipant: emptyArray2 , numberChangePricingOtherPaticipant: 0});
                     paticipants[_address].listDataChange.push(dataChange);
                 }
             }else{
@@ -140,6 +154,9 @@ contract Session is Main{
         }   
     }
     
+    
+
+    
     function getProposedPrice(uint _IdItem) public{
         if(itemsList[_IdItem].statusSesstion != StatusSesstion.ENDING){
             revert("Wrong status of sesstion");
@@ -147,12 +164,14 @@ contract Session is Main{
         uint totalPriceOfPaticipantAbove;
         uint numberPaticipantJoneSestion = itemsList[_IdItem].checkAccount.length;
         for(uint i = 0 ; i < numberPaticipantJoneSestion ; i++){
-              totalPriceOfPaticipantAbove += (paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].priceDeviation) * (100 - (paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].valueChangePricingOtherPaticipant));        
+              uint lengthPriceDeviation = paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].numberChangePricingOtherPaticipant;
+              totalPriceOfPaticipantAbove += (paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].priceDeviation[lengthPriceDeviation]) * (100 - (paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].valueChangePricingOtherPaticipant[lengthPriceDeviation]));        
         }
         uint totalPriceOfPaticipantUnderLeft = 100 * numberPaticipantJoneSestion;
         uint totalPriceOfPaticipantUnderRight;
         for(uint i = 0 ; i < numberPaticipantJoneSestion ; i++){
-              totalPriceOfPaticipantUnderRight += paticipants[ itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].valueChangePricingOtherPaticipant;
+              uint lengthPriceDeviation = paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].numberChangePricingOtherPaticipant;
+              totalPriceOfPaticipantUnderRight += paticipants[ itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].valueChangePricingOtherPaticipant[lengthPriceDeviation];
         }
         uint result = totalPriceOfPaticipantAbove / (totalPriceOfPaticipantUnderLeft - totalPriceOfPaticipantUnderRight);
         itemsList[_IdItem].valueChangePricing = result;
@@ -175,11 +194,12 @@ contract Session is Main{
             }
         }
         uint calNewPriceOfParticipant = calculatingDeviation(_newPriceOfParticipan, _IdItem);
+        uint lengthPriceDeviation = paticipants[msg.sender].listDataChange[_IdItem].numberChangePricingOtherPaticipant;
         uint numberPaticipant = paticipants[msg.sender].listDataChange[_IdItem].numberChangePricingOtherPaticipant;
-        uint currentPriceDeviation = paticipants[msg.sender].listDataChange[_IdItem].valueChangePricingOtherPaticipant;
+        uint currentPriceDeviation = paticipants[msg.sender].listDataChange[_IdItem].valueChangePricingOtherPaticipant[lengthPriceDeviation];
         uint value = (currentPriceDeviation * numberPaticipant + calNewPriceOfParticipant) / (numberPaticipant + 1);
-        paticipants[msg.sender].listDataChange[_IdItem].valueChangePricingOtherPaticipant = value;
-        paticipants[msg.sender].listDataChange[_IdItem].priceDeviation = _newPriceOfParticipan;
+        paticipants[msg.sender].listDataChange[_IdItem].valueChangePricingOtherPaticipant.push(value);
+        paticipants[msg.sender].listDataChange[_IdItem].priceDeviation.push(_newPriceOfParticipan);
         paticipants[msg.sender].listDataChange[_IdItem].numberChangePricingOtherPaticipant++;
         paticipants[msg.sender].countPricedSesstion++;
         itemsList[_IdItem].countPaticipantJoinSesstion++;

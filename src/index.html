@@ -78,7 +78,8 @@
           <button type="button" class="btn btn-primary btn-success btn-checkTime" onclick="App.checkStatusOfSession(); return false;">Check Time</button>
           <button type="button" class="btn btn-primary btn-danger btn-change-price" onclick="App.openChangingPriceOfSession(); return false;">Change Price</button>
           <button type="button" class="btn btn-primary btn-danger btn-change-final-price" onclick="App.openChangingFinalPriceOfSession(); return false;">Change final Price</button>     
-          <h4 class="btn-finish">Sesstion Done</h4>
+          <button type="button" class="btn btn-danger btn-success btn-show-deviation pull-right" onclick="App.showDeviation(); return false;">Show Deviation</button>
+          <h5 class="btn-finish"><span class="glyphicon glyphicon-ok"></span> Sesstion Done</h5>
         </div>
       </div>
     </div>
@@ -326,6 +327,33 @@
           </div>
           <div class="modal-footer">
             <button class="btn btn-warning btn-default pull-left" data-dismiss="modal" onclick="App.stopSession(); return false;">Comfirm</button>
+            <button class="btn btn-danger btn-default pull-right" type="button" data-dismiss="modal">Close</button>
+          </div>
+        </div>
+      </div>
+    </div> 
+  </div>
+
+  <div class="container">
+    <!-- Modal -->
+    <div class="modal fade" id="showDevition" role="dialog">
+      <div class="modal-dialog">
+      
+        <!-- Modal content-->
+        <div class="modal-content">
+          <div class="modal-header" style="padding:35px 50px;">
+            <h4 id="nameProductDeviation"><span class="glyphicon glyphicon-list-alt"></span> Show devition </h4>
+          </div>
+          <div class="modal-body" style="padding:40px 50px;">
+            <form role="form">
+              <div class="form-group">
+                   <p class="pull-right priceDeviationRight deviation"></p>
+                   <p class="pull-center priceDeviationLeft deviation"></p>
+                   <strong></strong>
+              </div>    
+            </form>
+          </div>
+          <div class="modal-footer">
             <button class="btn btn-danger btn-default pull-right" type="button" data-dismiss="modal">Close</button>
           </div>
         </div>

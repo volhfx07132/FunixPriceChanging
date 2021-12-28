@@ -2,8 +2,8 @@ pragma solidity >=0.4.0 <0.9.0;
 contract Main{
     struct DataChange{
         uint IdItem;
-        uint priceDeviation;
-        uint valueChangePricingOtherPaticipant;
+        uint[] priceDeviation;
+        uint[] valueChangePricingOtherPaticipant;
         uint numberChangePricingOtherPaticipant;
     }
 

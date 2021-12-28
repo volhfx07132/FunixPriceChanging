@@ -104,6 +104,7 @@ App = {
     articleTemplate.find('.btn-checkTime').attr('data-id', id);
     articleTemplate.find('.btn-change-final-price').attr('data-id', id);
     articleTemplate.find('.btn-stop').attr('data-id', id);
+    articleTemplate.find('.btn-show-deviation').attr('data-id', id);
     // add this new article
     if(adminAccount.toString() == $('#account').text().toString()){
       articleTemplate.find('.btn-start').show();
@@ -142,10 +143,12 @@ App = {
     
     if(statusOfSession.toString() == "Done" && adminAccount.toString() == $('#account').text().toString()){
       articleTemplate.find('.btn-finish').show();
+      articleTemplate.find('.btn-show-deviation').show();
       articleTemplate.find('.btn-start').hide();
       articleTemplate.find('.btn-change-final-price').hide();
     }else{
       articleTemplate.find('.btn-finish').hide();
+      articleTemplate.find('.btn-show-deviation').hide();
     }
 
     if(statusOfSession.toString() == "Done" && adminAccount.toString() != $('#account').text().toString()){
@@ -171,7 +174,7 @@ App = {
     if(_nameProduct.trim() != "" && _hashImageOfProduct.trim() != "" && _infomationOfProduct.trim() != "" && _priceOfProduct.trim() != "" ){
       App.contracts.Session.deployed().then(function(instance){
         instance.admin().then(function(adminAccount){
-          return instance.createNewItem(_nameProduct, _hashImageOfProduct, _infomationOfProduct, _priceOfProduct, {from: adminAccount, gas: 500000}).then(function(){
+          return instance.createNewItem(_nameProduct, _hashImageOfProduct, _infomationOfProduct, _priceOfProduct, {from: adminAccount, gas: 5000000}).then(function(){
             App.reloadArticles();
           })
         })
@@ -261,7 +264,7 @@ App = {
       return instance.admin().then(function(adminAccount){
         return instance.startSesstion(_Iditems, {
           from: adminAccount,
-          gas: 500000
+          gas: 5000000
         });
       })
     }).catch(function(error) {
@@ -382,7 +385,7 @@ App = {
       App.contracts.Session.deployed().then(function(instance){
         return instance.accumulatedDeviation(_newPriceOfSession, _Iditems,{
           from: accountOfSession,
-          gas: 500000
+          gas: 5000000
         })
       })
     }else{
@@ -398,7 +401,7 @@ App = {
         instance.admin().then(function(adminAccount){
           return instance.setFinalPriceOfItem(_Iditems, _newPriceOfSessionFinal,{
             from: adminAccount,
-            gas: 500000
+            gas: 5000000
           }).then(function(){
             App.reloadArticles();
           })
@@ -415,15 +418,46 @@ App = {
       instance.admin().then(function(adminAccount){
         return instance.stopSesstion(_Iditems, {
           from: adminAccount,
-          gas: 500000
+          gas: 5000000
         }).then(function(){
-          return instance.getProposedPrice(_Iditems, {gas: 500000}).then(function(){
+          return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
             App.reloadArticles();
           })
         })
       })
     })
-  }
+  },
+
+  showDeviation: function(){
+    event.preventDefault();
+    $(".priceDeviationLeft").text("");
+    $(".priceDeviationRight").text("");
+    var _Iditems = $(event.target).data('id');
+    App.contracts.Session.deployed().then(function(instance){
+      instance.itemsList(_Iditems).then(function(article){
+        $("#nameProductDeviation").text(article[1]);
+         instance.getAddressChangedPriceOfItems(_Iditems).then(function(addressArray){ 
+          for(var i = 0 ; i < addressArray.length ; i++){
+              instance.paticipants(addressArray[i]).then(function(paticipant){
+                $(".priceDeviationLeft").html( $(".priceDeviationLeft").html() + "<strong>Full name: "+paticipant[1] +"</strong></br>")
+                $(".priceDeviationRight").html( $(".priceDeviationRight").html()  +"</br>")
+              })              
+              instance.showDataPrice(_Iditems, addressArray[i]).then(function(arrayPrice){
+                for(var j = 1 ; j < arrayPrice.length ; j++){
+                  $(".priceDeviationLeft").html( $(".priceDeviationLeft").html() + "Price changed : $"+arrayPrice[j] +"</br>")
+                }
+              })
+              instance.showDataDeviation(_Iditems, addressArray[i]).then(function(arrayDeviation){
+                for(var j = 1 ; j < arrayDeviation.length ; j++){
+                  $(".priceDeviationRight").html( $(".priceDeviationRight").html() + "Current deviation: "+arrayDeviation[j] +"%</br>")
+                }
+              })
+          }
+        })
+        $("#showDevition").modal();
+      })
+    }) 
+  },
 };
 
 $(function() {
