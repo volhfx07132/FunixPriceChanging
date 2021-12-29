@@ -30,4 +30,7 @@ body{
 .panel-body{
  height:240px;
 }
-
+.panel-time-out{
+  position: relative;
+  top:-40px;
+}
