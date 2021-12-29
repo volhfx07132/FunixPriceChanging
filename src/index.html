@@ -33,8 +33,9 @@
     <div class="col-md-12" id="article-list">
       <div class="row">
         <div class="col-lg-12">
+          
+          <p id="accountBalance" class="welcome pull-right"></p>
           <p id="account" class="welcome pull-right"></p>
-          <p id="accountBalance" class="welcome pull-left"></p>
         </div>
       </div>
 
@@ -42,8 +43,16 @@
         <div class="panel-heading clearfix">
           <div class="panel-title">
             <button class="btn btn-info btn-lg pull-left" data-toggle="collapse" data-target="#events" aria-expanded="false" aria-controls="events">Events</button>
+            <p class="btn pull-left"></p>
             <button id="nameAccount" class="btn btn-info btn-lg pull-right" onclick="App.showDetailAccount(); return false">Full Name</button>
             <button class="btn btn-success btn-lg pull-right btn-create-new-product" data-toggle="modal" aria-expanded="false" data-target="#createProduct">Create new product</button>
+            <div class="dropdown" id="listAccount">
+              <button class="btn btn-info btn-lg pull-left dropdown-toggle" type="button" data-toggle="dropdown">Account User
+              <span class="caret"></span></button>
+              <ul id="addressRow" class="dropdown-menu">
+                 <!-- Address of user load hear -->
+              </ul>
+            </div>
           </div>
         </div>
         <ul id="events" class="collapse list-group"></ul>
@@ -55,6 +64,9 @@
     </div>
   </div>
 
+  <div id="addressTemplate" style="display: none;">
+    <li><a onclick="App.openListAddressPriceOfSession(); return false;" class="addressUser"></a></li>
+  </div>
 
   <div id="articleTemplate" style="display: none;">
     <div class="row-lg-12">

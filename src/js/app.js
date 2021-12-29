@@ -65,14 +65,17 @@ App = {
      }).then(function(){
       return sessionInstance.getLengthItems().then(function(lengthItems){
         $('#articlesRow').empty();
+        $('#addressRow').empty();
         for(var i = 0; i < lengthItems.toNumber(); i++) {
           sessionInstance.itemsList(i).then(function(article){
             return sessionInstance.convertStateToString(article[0]).then(function(statusOfSession){
                 sessionInstance.admin().then(function(adminAccount){
                 if(adminAccount.toString() == $('#account').text().toString()){
                   $("#nameAccount").hide();
+                  $("#listAccount").show();
                   $(".btn-create-new-product").show();
                 }else{
+                  $("#listAccount").hide();
                   $("#nameAccount").show();
                   $(".btn-create-new-product").hide();
                 }
@@ -82,13 +85,40 @@ App = {
             })
           });
         }
+      }).then(function() {
+        return sessionInstance.getAddressUserRegister().then(function(addressArray){
+          for(var i = 0; i < addressArray.length; i++) {
+            console.log(addressArray[i]);
+            App.displayAddressUser(addressArray[i]);
+          }
+        })
       })
     }).catch(function(err) {
       App.loading = false;
     });
-    //getLengthItems
   },
 
+  displayAddressUser: function(addressAccountUser) {
+    var addressRow = $('#addressRow');
+    var addressTemplate = $("#addressTemplate");
+    addressTemplate.find('.addressUser').text(addressAccountUser);
+    addressTemplate.find('.addressUser').attr('data-id', addressAccountUser)
+    addressRow.append(addressTemplate.html());
+  },
+  openListAddressPriceOfSession: function() {
+    event.preventDefault();
+    var _addressAccountUser = $(event.target).data('id');
+    App.contracts.Session.deployed().then(function(instance){
+        instance.paticipants(_addressAccountUser).then(function(paticipant){
+        $("#addressDetailAccount").val(paticipant[0]);
+        $("#fullNameDetailAccount").val(paticipant[1]);
+        $("#gmailDetailAccount").val(paticipant[2]);
+        $("#passwordDetailAccount").val(paticipant[3]);
+        $("#countPricedSesstion").val(paticipant[4]); 
+      })
+    })
+    $("#detailAccount").modal();
+  },
   displayArticle: function(id, name, image, description, price, countPaticipantJoinSesstion, priceProposal, statusOfSession, adminAccount) {
     var articlesRow = $('#articlesRow');
     var articleTemplate = $("#articleTemplate");

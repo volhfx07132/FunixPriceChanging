@@ -126,6 +126,10 @@ contract Session is Main{
          return itemsList[_IdItem].checkAccount;
     }
 
+    function getAddressUserRegister() public view returns(address[] memory){
+        return totalAccounts;
+    }
+
     function registerAccount(address _address, string memory _fullName, string memory _email, string memory _passwordAccount) public{
         bool checkStatusAddress = false;
         if(_address == admin){
