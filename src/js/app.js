@@ -86,12 +86,14 @@ App = {
           });
         }
       }).then(function() {
-        return sessionInstance.getAddressUserRegister().then(function(addressArray){
-          for(var i = 0; i < addressArray.length; i++) {
-            console.log(addressArray[i]);
-            App.displayAddressUser(addressArray[i]);
-          }
-        })
+        sessionInstance.admin().then(function(adminAccount){
+          return sessionInstance.getAddressUserRegister({from: adminAccount}).then(function(addressArray){
+            for(var i = 0; i < addressArray.length; i++) {
+              console.log(addressArray[i]);
+              App.displayAddressUser(addressArray[i]);
+            }
+          })
+        }) 
       })
     }).catch(function(err) {
       App.loading = false;

@@ -11,11 +11,13 @@ contract("Session", accounts => {
             instanceSession = await Session.deployed();
             assert(instanceSession != undefined, "Smart contract should be defined");
         });
+
         it("Should check account 0 is account of admin", function() {
             return instanceSession.admin().then(function(result) {
                 assert(result == accounts[0], "Should set account for admin");
             });
         });
+
         it("Should check default item in project", function() {
            return instanceSession.listNameOfItems(0).then(function(result) {
                assert.equal(result, "Samsung Galaxy Note20", "Default items name must be: Samsung Galaxy Note20");
@@ -138,6 +140,11 @@ contract("Session", accounts => {
             }).then(function(result) {
                 expect(result).to.not.be.an("Error");
                 return instanceSession.registerAccount(accounts[5], "Cao Nhu Phu", "phu@gmail.com", "phu123123");
+            }).then(function(result){
+                expect(result).to.not.be.an("Error");
+                return instanceSession.getAddressUserRegister({from: accounts[0]});
+            }).then(function(result){
+                assert.equal(result.length, 5, "Length of data is 5");
             })
         })
 
@@ -187,7 +194,10 @@ contract("Session", accounts => {
                 assert.equal(receipt.logs[0].event, "LogStartSession", "event should be LogStartSession");
                 assert.equal(receipt.logs[0].args._nameItem, "Samsung Galaxy Note20", "event name item must be Samsung Galaxy Note20"); 
                 assert.equal(receipt.logs[0].args._firstPrice, 930, "event first price must be " + 930); 
-            });
+                return instanceSession.itemsList(0);
+            }).then(function(items){
+                assert.equal(items[7], 1, "Status sesstion sesstion must be 0");
+            })
         });
         it("Should check start session 1", function () {
             return instanceSession.startSesstion(1, {from: accounts[0]}).then(function (receipt) {
@@ -195,7 +205,10 @@ contract("Session", accounts => {
                 assert.equal(receipt.logs[0].event, "LogStartSession", "event should be LogStartSession");
                 assert.equal(receipt.logs[0].args._nameItem, "Iphone5", "event name item must be Iphone5"); 
                 assert.equal(receipt.logs[0].args._firstPrice, 300, "event first price must be " + 300); 
-            });
+                return instanceSession.itemsList(1);
+            }).then(function(items){
+                assert.equal(items[7], 1, "Status sesstion sesstion must be 0");
+            })
         });
         it("Should check start session 2", function () {
             return instanceSession.startSesstion(2, {from: accounts[0]}).then(function (receipt) {
@@ -203,7 +216,10 @@ contract("Session", accounts => {
                 assert.equal(receipt.logs[0].event, "LogStartSession", "event should be LogStartSession");
                 assert.equal(receipt.logs[0].args._nameItem, "Iphone6", "event name item must be Iphone6"); 
                 assert.equal(receipt.logs[0].args._firstPrice, 340, "event first price must be " + 340); 
-            });
+                return instanceSession.itemsList(2);
+            }).then(function(items){
+                assert.equal(items[7], 1, "Status sesstion sesstion must be 0");
+            })
         });
     })
 

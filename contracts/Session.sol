@@ -126,7 +126,7 @@ contract Session is Main{
          return itemsList[_IdItem].checkAccount;
     }
 
-    function getAddressUserRegister() public view returns(address[] memory){
+    function getAddressUserRegister() public onlyAdmin view returns(address[] memory){
         return totalAccounts;
     }
 
