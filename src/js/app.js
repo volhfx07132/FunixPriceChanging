@@ -151,27 +151,24 @@ App = {
     articleTemplate.find('.article-statusOfSession').text(statusOfSession);
     articleTemplate.find('.btn-start').attr('data-id', id);
     articleTemplate.find('.btn-change-price').attr('data-id', id);
-    articleTemplate.find('.btn-checkTime').attr('data-id', id);
     articleTemplate.find('.btn-change-final-price').attr('data-id', id);
     articleTemplate.find('.btn-stop').attr('data-id', id);
     articleTemplate.find('.btn-show-deviation').attr('data-id', id);
     var idTime = "idTime"+id;
+    var idTimeSession = "#idTime"+id;
     articleTemplate.find('.time-session').attr('id', idTime);
    
   //Show data when admin address same session address
     if(adminAccount.toString() == $('#account').text().toString()){
       articleTemplate.find('.btn-start').show();
       articleTemplate.find('.btn-change-price').hide();
-      articleTemplate.find('.btn-checkTime').hide();
     }else{
   //Hide data when admin different same session address    
       articleTemplate.find('.btn-start').hide();
-      articleTemplate.find('.btn-checkTime').show();
     }
   //Show data when status of session is "PRICING" and  admin different same session address  
     if(statusOfSession.toString() != "Not Start" && statusOfSession.toString() != "Ending" && adminAccount.toString() != $('#account').text().toString()){
       articleTemplate.find('.btn-start').hide();
-      articleTemplate.find('.btn-checkTime').show();
       articleTemplate.find('.btn-change-price').show();
     }else{
   //Show data when status of session is not "PRICING" and admin different same session address      
@@ -206,10 +203,13 @@ App = {
     }
   //Show data when status of session is "ENDING" and admin different session address 
     if(statusOfSession.toString() == "Done" && adminAccount.toString() != $('#account').text().toString()){
-      articleTemplate.find('.btn-checkTime').hide();
       articleTemplate.find('.btn-change-price').hide();
       articleTemplate.find('.btn-change-final-price').hide();
       articleTemplate.find('.btn-finish').show();
+    }
+  //Hide data when status of session is "ENDING"  
+    if(statusOfSession.toString() == "Done"){
+      articleTemplate.find(idTimeSession).hide();
     }
   //Add article template when status of session is "STARTED" and admin different session address    
     if(statusOfSession.toString() == "Started" && adminAccount.toString() != $('#account').text().toString()){
@@ -218,6 +218,7 @@ App = {
     if(adminAccount.toString() == $('#account').text().toString()){
       articlesRow.append(articleTemplate.html());
     }
+
   },
   //Create new product 
   createNewAccount: function(){
@@ -559,25 +560,23 @@ App = {
       App.contracts.Session.deployed().then(function(instance){
         instance.itemsList(_Iditems).then(function(article){
           if(article[7] == 1){
-            var currentTime = 100 - Math.round(time-article[8]);
+            var currentTime =300 - Math.round(time-article[8]);
             $(_Idtags).text("Time remaining: "+currentTime);
-            if(100 - Math.round(time-article[8]) < 1 ){
+            if(300  - Math.round(time-article[8]) < 1 ){
               clearInterval(myInterval);  
             }   
-            if(100 - Math.round(time-article[8]) < 1 ){   
-              clearInterval(myInterval);  
+            if(300  - Math.round(time-article[8]) < 1 ){   
+              clearInterval(myInterval);
               instance.admin().then(function(adminAccount){
-                alert("DONE")
-    // //Action: Stop session       
-    //             return instance.stopSesstion(_Iditems, {
-    //               from: adminAccount,
-    //               gas: 5000000
-    //             }).then(function(){
-    // //Set price proposal for session         
-    //               return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
-    //                 App.reloadArticles();
-    //               })
-    //             })
+    //Action: Stop session       
+                return instance.stopSesstion(_Iditems, {
+                  gas: 5000000
+                }).then(function(){
+    //Set price proposal for session         
+                  return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
+                    App.reloadArticles();
+                  })
+                })
               })    
             }
           }else{

@@ -110,7 +110,7 @@ contract Session is Main{
         return itemsList.length;
     }
     //stop session
-    function stopSesstion(uint _IdItem) public onlyAdmin {
+    function stopSesstion(uint _IdItem) public {
         itemsList[_IdItem].statusSesstion = StatusSesstion.ENDING;
         emit LogStopSession(_IdItem,  itemsList[_IdItem].nameItem,  itemsList[_IdItem].firstPrice);
     }
