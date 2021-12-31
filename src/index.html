@@ -34,7 +34,7 @@
       <div class="row">
         <div class="col-lg-12">
           
-          <p id="accountBalance" class="welcome pull-right"></p>
+          <p id="accountBalance" class="welcome pull-left"></p>
           <p id="account" class="welcome pull-right"></p>
         </div>
       </div>
@@ -92,6 +92,7 @@
           <button type="button" class="btn btn-primary btn-danger btn-change-final-price" onclick="App.openChangingFinalPriceOfSession(); return false;">Change final Price</button>     
           <button type="button" class="btn btn-danger btn-success btn-show-deviation pull-right" onclick="App.showDeviation(); return false;">Show Deviation</button>
           <h5 class="btn-finish"><span class="glyphicon glyphicon-ok"></span> Sesstion Done</h5>
+          <h4 class="pull-right time-session">Time remaining: 600</h4>
         </div>
       </div>
     </div>
@@ -174,17 +175,18 @@
       </div>
     </div> 
   </div>
-
+  <!-- Show modal sign-up (re,lmgister account) -->
   <div class="container">
-    <!-- Modal -->
+  <!-- Modal -->
     <div class="modal fade multi-collapse" id="sign-up" role="dialog">
       <div class="modal-dialog">
       
-        <!-- Modal content-->
+  <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header" style="padding:35px 50px;">
             <h4><span class="glyphicon glyphicon-plus-sign"></span> Register new account</h4>
           </div>
+  <!-- Modal body-->          
           <div class="modal-body" style="padding:40px 50px;">
             <form role="form">
               <div class="form-group">
@@ -209,6 +211,7 @@
                 <button type="submit" class="btn btn-success btn-block" onclick="App.registerAccount(); return false;"><span class="glyphicon glyphicon-plus"></span> Register</button>
             </form>
           </div>
+  <!-- Modal footer-->        
           <div class="modal-footer">
             <button class="btn btn-danger btn-default pull-left" type="button" data-toggle="modal" data-target=".multi-collapse" aria-expanded="false" aria-controls="login sign-up">Login</button>
             <p>Forgot <a href="#">Password?</a></p>
@@ -262,15 +265,16 @@
   </div>
 
   <div class="container">
-    <!-- Modal -->
+  <!-- Modal -->
     <div class="modal fade" id="changingPrice" role="dialog">
       <div class="modal-dialog">
       
-        <!-- Modal content-->
+  <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header" style="padding:35px 50px;">
             <h4><span class="glyphicon glyphicon-user"></span> Your price proposal </h4>
           </div>
+  <!-- Modal body-->          
           <div class="modal-body" style="padding:40px 50px;">
             <form role="form">
               <div class="form-group">
@@ -280,6 +284,7 @@
               </div>    
             </form>
           </div>
+  <!-- Modal footer-->     
           <div class="modal-footer">
             <button class="btn btn-warning btn-default pull-left" data-dismiss="modal" onclick="App.changingPriceOfSession(); return false">Submit</button>
             <button class="btn btn-danger btn-default pull-right" type="button" data-dismiss="modal">Close</button>
@@ -288,18 +293,17 @@
       </div>
     </div> 
   </div>
-
-
+  <!-- Show modal set final price -->
   <div class="container">
-    <!-- Modal -->
+  <!-- Modal -->
     <div class="modal fade" id="changingPriceFinal" role="dialog">
       <div class="modal-dialog">
-      
-        <!-- Modal content-->
+  <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header" style="padding:35px 50px;">
             <h4><span class="glyphicon glyphicon-user"></span> Chain final price </h4>
           </div>
+  <!-- Modal body-->         
           <div class="modal-body" style="padding:40px 50px;">
             <form role="form">
               <div class="form-group">
@@ -309,6 +313,7 @@
               </div>    
             </form>
           </div>
+  <!-- Modal footer-->        
           <div class="modal-footer">
             <button class="btn btn-warning btn-default pull-left" data-dismiss="modal" onclick="App.changingFinalPriceOfSession(); return false;">Submit</button>
             <button class="btn btn-danger btn-default pull-right" type="button" data-dismiss="modal">Close</button>
@@ -317,18 +322,17 @@
       </div>
     </div> 
   </div>
-
-
+  <!-- Show modal stop session -->
   <div class="container">
-    <!-- Modal -->
+  <!-- Modal -->
     <div class="modal fade" id="stopSession" role="dialog">
       <div class="modal-dialog">
-      
-        <!-- Modal content-->
+  <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header" style="padding:35px 50px;">
             <h4><span class="glyphicon glyphicon-user"></span> Stop Session </h4>
           </div>
+  <!-- Modal Body-->
           <div class="modal-body" style="padding:40px 50px;">
             <form role="form">
               <div class="form-group">
@@ -345,17 +349,17 @@
       </div>
     </div> 
   </div>
-
+  <!-- Modal show deviation of participants -->
   <div class="container">
-    <!-- Modal -->
+  <!-- Modal -->
     <div class="modal fade" id="showDevition" role="dialog">
       <div class="modal-dialog">
-      
-        <!-- Modal content-->
+  <!-- Modal content-->
         <div class="modal-content">
           <div class="modal-header" style="padding:35px 50px;">
             <h4 id="nameProductDeviation"><span class="glyphicon glyphicon-list-alt"></span> Show devition </h4>
           </div>
+  <!-- Modal content-->        
           <div class="modal-body" style="padding:40px 50px;">
             <form role="form">
               <div class="form-group">
@@ -365,6 +369,7 @@
               </div>    
             </form>
           </div>
+  <!-- Modal footer-->          
           <div class="modal-footer">
             <button class="btn btn-danger btn-default pull-right" type="button" data-dismiss="modal">Close</button>
           </div>
@@ -372,8 +377,7 @@
       </div>
     </div> 
   </div>
-   
-
+  <!-- footer -->
   <div id="footer" class="container">
     <nav class="navbar navbar-default navbar-fixed-bottom">
       <div class="navbar-inner navbar-content-center text-center">
@@ -381,8 +385,6 @@
       </div>
     </nav>
   </div>
-
-
   <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
   <!-- Include all compiled plugins (below), or include individual files as needed -->
