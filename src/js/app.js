@@ -326,8 +326,7 @@ App = {
           from: adminAccount,
           gas: 5000000
         }).then(function(){
-          console.log(idTimeOut);
-          App.setTimeForSession(idTimeOut, _Iditems);
+          App.reloadArticles();
         })
       })
     }).catch(function(error) {
@@ -556,27 +555,38 @@ App = {
     function displayHello() {
       const d = new Date();
       let time = (d.getTime())/1000;
+      var myCheck = false;
       App.contracts.Session.deployed().then(function(instance){
         instance.itemsList(_Iditems).then(function(article){
           if(article[7] == 1){
             var currentTime = 100 - Math.round(time-article[8]);
             $(_Idtags).text("Time remaining: "+currentTime);
-            if(100 - Math.round(time-article[8]) == 0 ){   
+            if(100 - Math.round(time-article[8]) < 1 ){
+              clearInterval(myInterval);  
+            }   
+            if(100 - Math.round(time-article[8]) < 1 ){   
               clearInterval(myInterval);  
               instance.admin().then(function(adminAccount){
-    //Action: Stop session       
-                return instance.stopSesstion(_Iditems, {
-                  from: adminAccount,
-                  gas: 5000000
-                }).then(function(){
-    //Set price proposal for session         
-                  return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
-                    App.reloadArticles();
-                  })
-                })
+                alert("DONE")
+    // //Action: Stop session       
+    //             return instance.stopSesstion(_Iditems, {
+    //               from: adminAccount,
+    //               gas: 5000000
+    //             }).then(function(){
+    // //Set price proposal for session         
+    //               return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
+    //                 App.reloadArticles();
+    //               })
+    //             })
               })    
-              
             }
+          }else{
+            if(article[7] == 0){
+              $(_Idtags).text("Not Start");
+            }else{
+              $(_Idtags).text("Time remaining: "+0);
+            }
+            
           }
         })
       })
