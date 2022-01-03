@@ -328,7 +328,7 @@
   "sourceMap": "33:1122:0:-:0;;;656:5;642:19;;;;;;;;;;;;;;;;;;;;806:50;;;;;;;;;;838:10;830:5;;:18;;;;;;;;;;;;;;;;;;33:1122;;;;;;",
   "deployedSourceMap": "33:1122:0:-:0;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;559:20;;;:::i;:::-;;;;;;;:::i;:::-;;;;;;;;;;;;;;;;;;;;:::o;7:126:3:-;44:7;84:42;77:5;73:54;62:65;;7:126;;;:::o;139:96::-;176:7;205:24;223:5;205:24;:::i;:::-;194:35;;139:96;;;:::o;241:118::-;328:24;346:5;328:24;:::i;:::-;323:3;316:37;241:118;;:::o;365:222::-;458:4;496:2;485:9;481:18;473:26;;509:71;577:1;566:9;562:17;553:6;509:71;:::i;:::-;365:222;;;;:::o",
   "source": "pragma solidity >=0.4.0 <0.9.0;\r\ncontract Main{\r\n    //Set Data for DataChange object\r\n    struct DataChange{\r\n        uint IdItem;\r\n        uint[] priceDeviation;\r\n        uint[] valueChangePricingOtherPaticipant;\r\n        uint numberChangePricingOtherPaticipant;\r\n    }\r\n    //Set Data for Paticipant object\r\n    struct Paticipant{\r\n        address addressAccount;\r\n        string fullName;\r\n        string email;\r\n        string passwordAccount;\r\n        uint countPricedSesstion; \r\n        DataChange[] listDataChange;\r\n    }\r\n    //Admin of session\r\n    address public admin;\r\n    //Status to check account exits from adddres array\r\n    bool status = false;\r\n    //The status of the session\r\n    enum StatusSesstion {START, PRICING, ENDING ,DONE}\r\n    //constructor initializes address for admin\r\n    constructor(){\r\n        admin = msg.sender;\r\n    } \r\n    //modifier check address of session\r\n    modifier onlyAdmin(){\r\n        require(msg.sender == admin,\"Only admin can solve\");\r\n        _;\r\n    }\r\n    //modifier check address of session\r\n    modifier notOnlyAdmin(){\r\n        require(msg.sender != admin,\"Not only admin\");\r\n        _;\r\n    }\r\n}",
-  "sourcePath": "C:\\Users\\Admin\\Desktop\\FunixPriceChanging\\contracts\\Main.sol",
+  "sourcePath": "C:\\Users\\Admin\\OneDrive\\Máy tính\\FunixPriceChanging\\contracts\\Main.sol",
   "ast": {
     "absolutePath": "project:/contracts/Main.sol",
     "exportedSymbols": {
@@ -2082,7 +2082,7 @@
     }
   },
   "schemaVersion": "3.4.3",
-  "updatedAt": "2021-12-31T08:38:00.117Z",
+  "updatedAt": "2022-01-03T02:33:30.570Z",
   "devdoc": {
     "kind": "dev",
     "methods": {},

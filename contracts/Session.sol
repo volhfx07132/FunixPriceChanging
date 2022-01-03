@@ -237,6 +237,7 @@ contract Session is Main{
         return uint(newPriceDeviation);
     }
     //Set status for session
+
     function timeOutOfSesstion(uint _IdItem) public{
         if(itemsList[_IdItem].timeSesstionEachOtherproduct == 0){
              itemsList[_IdItem].statusSesstion = StatusSesstion.START;
@@ -248,7 +249,6 @@ contract Session is Main{
                     itemsList[_IdItem].statusSesstion = StatusSesstion.ENDING;
                 }
             }
-        }
-        
+        }  
     }
 }
