@@ -334,7 +334,7 @@ App = {
   //Show all detail account of participant
   showDetailAccount: function(){
     var _nameAccount = $("#nameAccount").text();
-    if(_nameAccount.trim() != "Full Name"){
+    if(_nameAccount.trim() != "Login"){
   //Initialize smart contract
       App.contracts.Session.deployed().then(function(instance){
   //Get information detail of paticipant  
@@ -402,7 +402,7 @@ App = {
             })
           })
         }else{
-          if($("#nameAccount").text() == "Full Name"){
+          if($("#nameAccount").text() == "Login"){
             $("#login").modal();
           }else{
   //Set status of session               
@@ -428,7 +428,7 @@ App = {
   //Get id when click button    
     event.preventDefault(); 
     var _Iditems = $(event.target).data('id');
-      if($("#nameAccount").text() == "Full Name"){
+      if($("#nameAccount").text() == "Login"){
         $("#login").modal();
       }else{
         $("#idItemsOfSession").val(_Iditems);
@@ -556,12 +556,12 @@ App = {
       App.contracts.Session.deployed().then(function(instance){
         instance.itemsList(_Iditems).then(function(article){
           if(article[7] == 1){
-            var currentTime = article[9] - Math.round(time-article[8]);
+            var currentTime = 200 - Math.round(time-article[8]);
             $(_Idtags).text(currentTime); 
-            if(article[9]  - Math.round(time-article[8]) < 1 ){
+            if(200  - Math.round(time-article[8]) < 1 ){
               clearInterval(myInterval);  
             }   
-            if(article[9]  - Math.round(time-article[8]) < 1 ){   
+            if(200  - Math.round(time-article[8]) < 1 ){   
               clearInterval(myInterval);
               instance.admin().then(function(adminAccount){
     //Action: Stop session       
