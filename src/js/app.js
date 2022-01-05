@@ -556,16 +556,17 @@ App = {
       App.contracts.Session.deployed().then(function(instance){
         instance.itemsList(_Iditems).then(function(article){
           if(article[7] == 1){
-            var currentTime = 200 - Math.round(time-article[8]);
+            var currentTime = 100 - Math.round(time-article[8]);
             $(_Idtags).text(currentTime); 
-            if(200  - Math.round(time-article[8]) < 1 ){
+            if(100  - Math.round(time-article[8]) < 1 ){
               clearInterval(myInterval);  
             }   
-            if(200  - Math.round(time-article[8]) < 1 ){   
+            if(100  - Math.round(time-article[8]) == 1 ){   
               clearInterval(myInterval);
               instance.admin().then(function(adminAccount){
     //Action: Stop session       
                 return instance.stopSesstion(_Iditems, {
+                  from: adminAccount,
                   gas: 5000000
                 }).then(function(){
     //Set price proposal for session         
