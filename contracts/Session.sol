@@ -60,8 +60,7 @@ contract Session is Main{
         listPrice.push(_firstPrice);
     }
     //Add item to itemsList
-    function addData() public{
-        
+    function addData() public{   
         for(uint i = 0 ; i < listHashImage.length ; i++){
             bool statusAdd;
             for(uint j = 0 ; j < itemsList.length ; j++){
@@ -110,18 +109,18 @@ contract Session is Main{
         return itemsList.length;
     }
     //stop session
-    function stopSesstion(uint _IdItem) public {
+    function stopSesstion(uint _IdItem) public onlyAdmin checkStatus(StatusSesstion.PRICING, _IdItem) {
         itemsList[_IdItem].statusSesstion = StatusSesstion.ENDING;
         emit LogStopSession(_IdItem,  itemsList[_IdItem].nameItem,  itemsList[_IdItem].firstPrice);
     }
     //statr session
-    function startSesstion(uint _IdItem) public onlyAdmin {
+    function startSesstion(uint _IdItem) public onlyAdmin checkStatus(StatusSesstion.START, _IdItem){
         itemsList[_IdItem].statusSesstion = StatusSesstion.PRICING;
         itemsList[_IdItem].timeSesstionEachOtherproduct = block.timestamp;
         emit LogStartSession(_IdItem,  itemsList[_IdItem].nameItem,  itemsList[_IdItem].firstPrice);
     }
     // set final price for items
-    function setFinalPriceOfItem(uint _IdItem, uint _price) public onlyAdmin {
+    function setFinalPriceOfItem(uint _IdItem, uint _price) public onlyAdmin checkStatus(StatusSesstion.ENDING, _IdItem){
          itemsList[_IdItem].firstPrice = _price;
          itemsList[_IdItem].statusSesstion = StatusSesstion.DONE;
     }

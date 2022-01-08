@@ -11,7 +11,7 @@ Unique folding screen, seamless display - Dynamic AMOLED 2X, 120Hz refresh rate,
 //item3
 Asus Rog Phone
 QmTp68sD8eAXSPFaoZpqS6bvbxHFpG8AAELX1J7Tf8Ceri
-Break all the limits of performance <br/>High-end Snapdragon 865+, 5G connectivity, 12GB RAM.<br/>Standard gaming screen <br/>AMOLED panel, high refresh rate 144Hz <br/>HDR10+.<br/>Play games without interruption - 6000mAh battery, custom battery mode</br>Gamer features - AirTrigger 5 multi-touch, quality dual speakers. </br>Review Asus ROG Phone 5(16GB/256GB) - Unrivaled performance.</br>.Bold design, sharp 6.78-inch FHD+ screen
+Break all the limits of performance High-end Snapdragon 865+, 5G connectivity, 12GB RAM.<br/>Standard gaming screen AMOLED panel, high refresh rate 144HzHDR10+.<br/>Play games without interruption - 6000mAh battery, custom battery mode Gamer features - AirTrigger 5 multi-touch, quality dual speakers. </br>Review Asus ROG Phone 5(16GB/256GB) - Unrivaled performance .Bold design, sharp 6.78-inch FHD+ screen
 790
 //item4
 Galaxy ZFold3
@@ -21,12 +21,12 @@ Impressive dual screen<br/>7.9 main screen and sub screen <br/>6.23, 120Hz smoot
 //item5
 Iphone 12 Pro Max
 QmXeY57QfXDnytL7PUAAynrtTVfuBHEYaXWxX4jFFAyLyd
-Powerful, super-fast with A14 chip <br/>6GB RAM, high-speed 5G network <br/>Brilliant, sharp, high brightness <br/>Premium OLED display <br/>Super Retina XDR with HDR10 support, Dolby Vision</br>Outstanding durability - IP68 water and dust resistance, Ceramic Shield back.</br>iPhone 12 Pro Max: Raise the level of use.</br> 6.7 inch Super Retina XDR screen
+Powerful, super-fast with A14 chip <br/>6GB RAM, high-speed 5G network <br/>Brilliant, sharp, high brightness premium OLED display <br/>Super Retina XDR with HDR10 support, Dolby Vision</br>Outstanding durability - IP68 water and dust resistance, Ceramic Shield back.</br>iPhone 12 Pro Max: Raise the level of use.6.7 inch Super Retina XDR screen
 986
 //item6
 Iphone 13 Pro Max
 QmcrrFf78e1emiSgCe3U9QEC4Qs7JqBT4LJtyvM53c58mJ
-Vibrant display space 6.1 Super Retina XDR display with high brightness and sharpnessThe ultimate cinematic experience <br/> 12MP dual cameras with optical image stabilization</br>Outstanding performance - Powerful Apple A15 Bionic chip, support for high-speed 5G networks.</br>Vivid display space - 6.7 Super Retina XDR screen with high brightness and sharpness.</br>Experience Ultimate cinematic experience - Cluster of 3 dual 12MP cameras, supporting optical image stabilization.</br>Power optimization - 20 W fast charging, 50% battery full in about 30 minutes
+Vibrant display space 6.1 Super Retina XDR display with high brightness and sharpnessThe ultimate cinematic experience <br/> 12MP dual cameras with optical image stabilization outstanding performance - Powerful Apple A15 Bionic chip, support for high-speed 5G networks.</br>Vivid display space - 6.7 Super Retina XDR screen with high brightness and sharpness.</br>Experience Ultimate cinematic experience - Cluster of 3 dual 12MP cameras, supporting optical image stabilization.</br>Power optimization - 20 W fast charging, 50% battery full in about 30 minutes
 748
 pragma solidity >=0.4.0 <0.9.0;
 import "./Main.sol";

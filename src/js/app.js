@@ -362,7 +362,6 @@ App = {
         }else {
           console.error(error);
         }
-        App.reloadArticles();
       });
   //Listen to event: LogStopSession 
       instance.LogStopSession({}, {}).watch(function(error, event){
@@ -371,7 +370,6 @@ App = {
         }else {
           console.error(error);
         }
-        App.reloadArticles();
       });
   //Listen to event: LogChainPriceOfSession 
       instance.LogChainPriceOfSession({}, {}).watch(function(error, event){
@@ -497,17 +495,22 @@ App = {
     App.contracts.Session.deployed().then(function(instance){
   //Get admin address          
       instance.admin().then(function(adminAccount){
-  //Action: Stop session       
-        return instance.stopSesstion(_Iditems, {
-          from: adminAccount,
-          gas: 5000000
-        }).then(function(){
-  //Set price proposal for session         
-          return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
-            App.reloadArticles();
+ 
+        instance.itemsList(_Iditems).then(function(article){ 
+    //Action: Stop session   
+          return instance.stopSesstion(_Iditems, {
+            from: adminAccount,
+            gas: 5000000
+          }).then(function(){
+    //Set price proposal for session   
+            if(article[5] != 0){
+              return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
+                App.reloadArticles();
+              })
+            }      
           })
         })
-      })
+      })  
     })
   },
   //Show list deviation
@@ -556,22 +559,25 @@ App = {
       App.contracts.Session.deployed().then(function(instance){
         instance.itemsList(_Iditems).then(function(article){
           if(article[7] == 1){
-            var currentTime = article[9] - Math.round(time-article[8]);
+            var currentTime = 300 - Math.round(time-article[8]);
             $(_Idtags).text(currentTime); 
-            if(article[9]  - Math.round(time-article[8]) < 1 ){
+            if(300  - Math.round(time-article[8]) <= 1 ){
               clearInterval(myInterval);  
             }   
-            if(article[9]  - Math.round(time-article[8]) == 1 ){   
+            if(300  - Math.round(time-article[8]) == 1 ){   
               clearInterval(myInterval);
               instance.admin().then(function(adminAccount){
     //Action: Stop session       
                 return instance.stopSesstion(_Iditems, {
+                  adminAccount,
                   gas: 5000000
                 }).then(function(){
-    //Set price proposal for session         
-                  return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
-                    App.reloadArticles();
-                  })
+    //Set price proposal for session 
+                  if(article[5] != 0){
+                    return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
+                      App.reloadArticles();
+                    })
+                  }
                 })
               })    
             }
