@@ -9,8 +9,6 @@ contract Session is Main{
         uint firstPrice;
         string itemDescription;
         uint countPaticipantJoinSesstion;
-        uint[] listPriceOfPaticipant;
-        uint[] listPriceDeviation;
         uint valueChangePricing;
         address[] checkAccount;
         StatusSesstion statusSesstion;
@@ -60,7 +58,8 @@ contract Session is Main{
         listPrice.push(_firstPrice);
     }
     //Add item to itemsList
-    function addData() public{   
+    function addData() public{
+        
         for(uint i = 0 ; i < listHashImage.length ; i++){
             bool statusAdd;
             for(uint j = 0 ; j < itemsList.length ; j++){
@@ -72,7 +71,7 @@ contract Session is Main{
             if(!statusAdd){
                 uint[] memory emptyArray;
                 address[] memory amptyAddressArray;
-                itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, emptyArray, emptyArray, 0, amptyAddressArray, StatusSesstion.START, 0, 600));
+                itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, 0, amptyAddressArray, StatusSesstion.START, 0, 600));
                 index++;
             }  
         }
@@ -109,18 +108,18 @@ contract Session is Main{
         return itemsList.length;
     }
     //stop session
-    function stopSesstion(uint _IdItem) public onlyAdmin checkStatus(StatusSesstion.PRICING, _IdItem) {
+    function stopSesstion(uint _IdItem) public onlyAdmin {
         itemsList[_IdItem].statusSesstion = StatusSesstion.ENDING;
         emit LogStopSession(_IdItem,  itemsList[_IdItem].nameItem,  itemsList[_IdItem].firstPrice);
     }
     //statr session
-    function startSesstion(uint _IdItem) public onlyAdmin checkStatus(StatusSesstion.START, _IdItem){
+    function startSesstion(uint _IdItem) public onlyAdmin {
         itemsList[_IdItem].statusSesstion = StatusSesstion.PRICING;
         itemsList[_IdItem].timeSesstionEachOtherproduct = block.timestamp;
         emit LogStartSession(_IdItem,  itemsList[_IdItem].nameItem,  itemsList[_IdItem].firstPrice);
     }
     // set final price for items
-    function setFinalPriceOfItem(uint _IdItem, uint _price) public onlyAdmin checkStatus(StatusSesstion.ENDING, _IdItem){
+    function setFinalPriceOfItem(uint _IdItem, uint _price) public onlyAdmin {
          itemsList[_IdItem].firstPrice = _price;
          itemsList[_IdItem].statusSesstion = StatusSesstion.DONE;
     }
@@ -147,6 +146,7 @@ contract Session is Main{
         if(_address == admin){
             revert("Account of admin can't register");
         }
+    //Check total account less then ten account    
         if(totalAccounts.length > 10){
             revert("The number of participants is less than ten.");
         }else{
@@ -157,13 +157,14 @@ contract Session is Main{
                 }
             }
             if(!checkStatusAddress){
+     //Set data for paticipant           
                 totalAccounts.push(_address); 
                 paticipants[_address].addressAccount = _address;
                 paticipants[_address].fullName = _fullName;
                 paticipants[_address].email = _email;
                 paticipants[_address].passwordAccount = _passwordAccount;
                 paticipants[_address].countPricedSesstion = 0;
-                
+     //Set data items for paticipant           
                 for(uint i = 0 ; i < index ; i++){
                     DataChange memory dataChange = DataChange({IdItem: i, priceDeviation: emptyArray1, valueChangePricingOtherPaticipant: emptyArray2 , numberChangePricingOtherPaticipant: 0});
                     paticipants[_address].listDataChange.push(dataChange);
@@ -236,7 +237,6 @@ contract Session is Main{
         return uint(newPriceDeviation);
     }
     //Set status for session
-
     function timeOutOfSesstion(uint _IdItem) public{
         if(itemsList[_IdItem].timeSesstionEachOtherproduct == 0){
              itemsList[_IdItem].statusSesstion = StatusSesstion.START;
@@ -248,6 +248,7 @@ contract Session is Main{
                     itemsList[_IdItem].statusSesstion = StatusSesstion.ENDING;
                 }
             }
-        }  
+        }
+        
     }
 }

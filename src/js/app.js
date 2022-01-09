@@ -207,7 +207,9 @@ App = {
       articleTemplate.find('.btn-finish').show();
     }
   //Hide data when status of session is "ENDING"  
-   
+    if(statusOfSession.toString() == "Done"){
+      articleTemplate.find(idTimeSession).hide();
+    }
   //Add article template when status of session is "STARTED" and admin different session address    
     if(statusOfSession.toString() == "Started" && adminAccount.toString() != $('#account').text().toString()){
       articlesRow.append(articleTemplate.html());
@@ -251,7 +253,7 @@ App = {
   //Get information detail of paticipant
             instance.paticipants($('#account').text()).then(function(paticipant){
               if(_emailLogin == paticipant[2]){
-                 if(_passwordLogin == paticipant[3]){
+                 if(_passwordLogin == paticipant[3]){f
                   $('#login').modal('hide');
                   $("#nameAccount").text(paticipant[1]);
                  }else{
@@ -495,22 +497,17 @@ App = {
     App.contracts.Session.deployed().then(function(instance){
   //Get admin address          
       instance.admin().then(function(adminAccount){
- 
-        instance.itemsList(_Iditems).then(function(article){ 
-    //Action: Stop session   
-          return instance.stopSesstion(_Iditems, {
-            from: adminAccount,
-            gas: 5000000
-          }).then(function(){
-    //Set price proposal for session   
-            if(article[5] != 0){
-              return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
-                App.reloadArticles();
-              })
-            }      
+  //Action: Stop session       
+        return instance.stopSesstion(_Iditems, {
+          from: adminAccount,
+          gas: 5000000
+        }).then(function(){
+  //Set price proposal for session         
+          return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
+            App.reloadArticles();
           })
         })
-      })  
+      })
     })
   },
   //Show list deviation
@@ -556,15 +553,16 @@ App = {
     function displayHello() {
       const d = new Date();
       let time = (d.getTime())/1000;
+      var myCheck = false;
       App.contracts.Session.deployed().then(function(instance){
         instance.itemsList(_Iditems).then(function(article){
           if(article[7] == 1){
-            var currentTime = 300 - Math.round(time-article[8]);
-            $(_Idtags).text(currentTime); 
-            if(300  - Math.round(time-article[8]) <= 1 ){
+            var currentTime = article[9] - Math.round(time-article[8]);
+            $(_Idtags).text(currentTime);
+            if(article[9]  - Math.round(time-article[8]) <= 1 ){
               clearInterval(myInterval);  
             }   
-            if(300  - Math.round(time-article[8]) == 1 ){   
+            if(article[9]  - Math.round(time-article[8]) == 1 ){   
               clearInterval(myInterval);
               instance.admin().then(function(adminAccount){
     //Action: Stop session       
@@ -572,12 +570,10 @@ App = {
                   adminAccount,
                   gas: 5000000
                 }).then(function(){
-    //Set price proposal for session 
-                  if(article[5] != 0){
-                    return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
-                      App.reloadArticles();
-                    })
-                  }
+    //Set price proposal for session         
+                  return instance.getProposedPrice(_Iditems, {gas: 5000000}).then(function(){
+                    App.reloadArticles();
+                  })
                 })
               })    
             }
@@ -585,8 +581,9 @@ App = {
             if(article[7] == 0){
               $(_Idtags).text("600");
             }else{
-              $(_Idtags).text("0");
+              $(_Idtags).text(0);
             }
+            
           }
         })
       })
