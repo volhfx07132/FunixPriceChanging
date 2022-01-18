@@ -254,7 +254,7 @@ App = {
   //Get information detail of paticipant
             instance.paticipants($('#account').text()).then(function(paticipant){
               if(_emailLogin == paticipant[2]){
-                 if(_passwordLogin == paticipant[3]){f
+                 if(_passwordLogin == paticipant[3]){
                   $('#login').modal('hide');
                   $("#nameAccount").text(paticipant[1]);
                  }else{

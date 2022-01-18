@@ -1,6 +1,7 @@
 pragma solidity >=0.4.0 <0.9.0;
 import "./Main.sol";
-contract Session is Main{
+import "./TokenERC20.sol";
+contract Session is Main, TokenERC20{
     //Set Data for items object
     struct Items{
         uint IdItem;
@@ -185,21 +186,22 @@ contract Session is Main{
         uint numberPaticipantJoneSestion = itemsList[_IdItem].checkAccount.length;
         for(uint i = 0 ; i < numberPaticipantJoneSestion ; i++){
               uint lengthPriceDeviation = paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].numberChangePricingOtherPaticipant;
-              totalPriceOfPaticipantAbove += (paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].priceDeviation[lengthPriceDeviation]) * (100 - (paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].valueChangePricingOtherPaticipant[lengthPriceDeviation]));        
+              totalPriceOfPaticipantAbove = safeAdd(totalPriceOfPaticipantAbove, safeMul(paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].priceDeviation[lengthPriceDeviation],  safeSub(100, (paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].valueChangePricingOtherPaticipant[lengthPriceDeviation]))));  
         }    
-        uint totalPriceOfPaticipantUnderLeft = 100 * numberPaticipantJoneSestion;
+        uint totalPriceOfPaticipantUnderLeft = safeMul(100, numberPaticipantJoneSestion);    
         uint totalPriceOfPaticipantUnderRight;
         for(uint i = 0 ; i < numberPaticipantJoneSestion ; i++){
               uint lengthPriceDeviation = paticipants[itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].numberChangePricingOtherPaticipant;
-              totalPriceOfPaticipantUnderRight += paticipants[ itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].valueChangePricingOtherPaticipant[lengthPriceDeviation];
+              totalPriceOfPaticipantUnderRight = safeAdd(totalPriceOfPaticipantUnderRight, paticipants[ itemsList[_IdItem].checkAccount[i]].listDataChange[_IdItem].valueChangePricingOtherPaticipant[lengthPriceDeviation]);
         }
-        uint result = totalPriceOfPaticipantAbove / (totalPriceOfPaticipantUnderLeft - totalPriceOfPaticipantUnderRight);
+        uint result = safeDiv(totalPriceOfPaticipantAbove, safeSub(totalPriceOfPaticipantUnderLeft, totalPriceOfPaticipantUnderRight));
     //Set price proposal for items
         itemsList[_IdItem].valueChangePricing = result;
     }
     //Calculate accumulated deviation each participants
     function accumulatedDeviation(uint _newPriceOfParticipan, uint _IdItem) public notOnlyAdmin checkStatus(StatusSesstion.PRICING, _IdItem){
         if(itemsList[_IdItem].checkAccount.length == 0){
+            transfer(paticipants[msg.sender].addressAccount, 10);
             itemsList[_IdItem].checkAccount.push(msg.sender);
         }else{
             for(uint i = 0 ; i < itemsList[_IdItem].checkAccount.length; i++){
@@ -210,6 +212,7 @@ contract Session is Main{
             }
             if(status == false){
                 itemsList[_IdItem].checkAccount.push(msg.sender);
+                transfer(paticipants[msg.sender].addressAccount, 10);
             }else{
                 status = false;
             }
@@ -218,21 +221,21 @@ contract Session is Main{
         uint lengthPriceDeviation = paticipants[msg.sender].listDataChange[_IdItem].numberChangePricingOtherPaticipant;
         uint numberPaticipant = paticipants[msg.sender].listDataChange[_IdItem].numberChangePricingOtherPaticipant;
         uint currentPriceDeviation = paticipants[msg.sender].listDataChange[_IdItem].valueChangePricingOtherPaticipant[lengthPriceDeviation];
-        uint value = (currentPriceDeviation * numberPaticipant + calNewPriceOfParticipant) / (numberPaticipant + 1);
+        uint value = safeDiv(safeAdd(safeMul(currentPriceDeviation, numberPaticipant), calNewPriceOfParticipant), safeAdd(numberPaticipant, 1));
         paticipants[msg.sender].listDataChange[_IdItem].valueChangePricingOtherPaticipant.push(value);
         paticipants[msg.sender].listDataChange[_IdItem].priceDeviation.push(_newPriceOfParticipan);
-        paticipants[msg.sender].listDataChange[_IdItem].numberChangePricingOtherPaticipant++;
-        paticipants[msg.sender].countPricedSesstion++;
-        itemsList[_IdItem].countPaticipantJoinSesstion++;
+        paticipants[msg.sender].listDataChange[_IdItem].numberChangePricingOtherPaticipant = safeAdd(paticipants[msg.sender].listDataChange[_IdItem].numberChangePricingOtherPaticipant, 1);
+        paticipants[msg.sender].countPricedSesstion = safeAdd(paticipants[msg.sender].countPricedSesstion, 1);
+        itemsList[_IdItem].countPaticipantJoinSesstion = safeAdd(itemsList[_IdItem].countPaticipantJoinSesstion, 1);
         emit LogChainPriceOfSession(_IdItem, itemsList[_IdItem].nameItem,  paticipants[msg.sender].fullName, _newPriceOfParticipan);
     }
     //Calculate Deviation 
     function calculatingDeviation(uint _priceOfParticipan, uint _IdItem) internal view returns (uint){
         uint newPriceDeviation = 0;
         if(itemsList[_IdItem].firstPrice > _priceOfParticipan){
-            newPriceDeviation = (itemsList[_IdItem].firstPrice  - _priceOfParticipan) * 100 / itemsList[_IdItem].firstPrice;
+            newPriceDeviation = safeDiv(safeMul(safeSub(itemsList[_IdItem].firstPrice, _priceOfParticipan), 100), itemsList[_IdItem].firstPrice);
         }else{
-            newPriceDeviation = (_priceOfParticipan - itemsList[_IdItem].firstPrice) * 100 / itemsList[_IdItem].firstPrice;
+            newPriceDeviation = safeDiv(safeMul(safeSub(_priceOfParticipan, itemsList[_IdItem].firstPrice), 100), itemsList[_IdItem].firstPrice);
         }
         return uint(newPriceDeviation);
     }

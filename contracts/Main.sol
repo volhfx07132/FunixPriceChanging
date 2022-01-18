@@ -3,8 +3,8 @@ contract Main{
     //Set Data for DataChange object
     struct DataChange{
         uint IdItem;
-        uint[] priceDeviation;A: B
-        uint[] valueChangePricingOtherPaticipant;10; 30
+        uint[] priceDeviation;
+        uint[] valueChangePricingOtherPaticipant;
         uint numberChangePricingOtherPaticipant;
     }
     //Set Data for Paticipant object
