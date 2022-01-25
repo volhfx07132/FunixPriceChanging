@@ -1,31 +1,31 @@
 //item1
 Samsung Galaxy Note20,
 Luxury high-class - Unique and attractive colors.<br/>Take professional photos - Set of 3 cameras that support Zoom as far as 30X.<br/>Take notes quickly and accurately with the new generation S-Pen.<br/>Ultimate gaming - Powerful 7nm Exynos 990, outstanding processing performance.<br/>Samsung Note 20 Ultra 5G phone - Luxury, outstanding performance.<br/>Monolithic aluminum frame design, luxurious tempered glass back.
-QmNqVYtH4mXG69LnAYE4xy1hgff1ZkYBtvVcCDyA4RPi6i
+Qmbc7gdDjTtnHx3ziBEGUHo925irQdJ3DjduUBrtC9m5xc
 930
 //item2
 Samsung ZFlip3
-Qmd63ELkZg7FzKBM3Qc67wPvnJ2Q8kgRiYm9cBgFPWRmMk
+QmchKDTgDeXp631bGU4K1BUENoqfdwCTQTtWm9amDhujok
 Unique folding screen, seamless display - Dynamic AMOLED 2X, 120Hz refresh rate, HDR support, Dolby Vision. </br>Unique folding screen, seamless display - Dynamic AMOLED 2X, 120Hz refresh rate, HDR support, Dolby Vision.</br>Super impressive camera system - Set of 3 12MP camera lenses, sharp selfie camera.</br>Impressive performance, master the speed - Snapdragon 888 combined with 8GB RAM, 5G support.</br>Samsung Galaxy Z Flip 3 (5G) Unique folding screen phone.<br>Characteristic design, pioneering flexible screen
 1740
 //item3
 Asus Rog Phone
-QmTp68sD8eAXSPFaoZpqS6bvbxHFpG8AAELX1J7Tf8Ceri
+QmPw7xvCoRpU6ZkMKxSq18dwt3ApCFU3shkXU4BAkbq7se
 Break all the limits of performance High-end Snapdragon 865+, 5G connectivity, 12GB RAM.<br/>Standard gaming screen AMOLED panel, high refresh rate 144HzHDR10+.<br/>Play games without interruption - 6000mAh battery, custom battery mode Gamer features - AirTrigger 5 multi-touch, quality dual speakers. </br>Review Asus ROG Phone 5(16GB/256GB) - Unrivaled performance .Bold design, sharp 6.78-inch FHD+ screen
 790
 //item4
 Galaxy ZFold3
-QmaGjnpC3sXekQon8V62nZFz5oKuB1gpyJaMuJtCC4N7f8
+QmeXTQwSrAajgkZYHHEwLVq9Wba8xrxVEDrCAyy3vzUKL4
 Impressive dual screen 7.9 main screen and sub screen <br/>6.23, 120Hz smooth motion super impressive camera system. Set of 3 12MP camera lenses selfie camera hidden under the screen</br>Impressive performance, master the speed - Snapdragon 888 combined with 12GB RAM, 5G support.</br>Super photography - Night Mode , Deep Fusion algorithm, Smart HDR 3, LiDar camera.<br>Durable. outstanding - IP68 waterproof, dustproof, Ceramic Shield back</br> Massive memory for unlimited storage space.
 1290
 //item5
 Iphone 12 Pro Max
-QmXeY57QfXDnytL7PUAAynrtTVfuBHEYaXWxX4jFFAyLyd
+QmcS1hYnqybYveKuyFhzg4sBaXyWpCBf2TyaYAQuXQ5kQK
 Powerful, super-fast with A14 chip <br/>6GB RAM, high-speed 5G network <br/>Brilliant, sharp, high brightness premium OLED display <br/>Super Retina XDR with HDR10 support, Dolby Vision</br>Outstanding durability - IP68 water and dust resistance, Ceramic Shield back.</br>iPhone 12 Pro Max: Raise the level of use.6.7 inch Super Retina XDR screen
 986
 //item6
 Iphone 13 Pro Max
-QmcrrFf78e1emiSgCe3U9QEC4Qs7JqBT4LJtyvM53c58mJ
+QmY4AF6sEjBF6EuxvPxn2GDmdfcrHB2uoDwyQ61k9VNiZw
 Vibrant display space 6.1 Super Retina XDR display with high brightness and sharpnessThe ultimate cinematic experience <br/> 12MP dual cameras with optical image stabilization outstanding performance - Powerful Apple A15 Bionic chip, support for high-speed 5G networks.</br>Vivid display space - 6.7 Super Retina XDR screen with high brightness and sharpness.</br>Experience Ultimate cinematic experience - Cluster of 3 dual 12MP cameras, supporting optical image stabilization.</br>Power optimization - 20 W fast charging, 50% battery full in about 30 minutes
 748
 pragma solidity >=0.4.0 <0.9.0;
