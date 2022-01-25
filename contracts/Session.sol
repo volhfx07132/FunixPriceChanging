@@ -70,7 +70,7 @@ contract Session is Main, TokenERC20{
                }
             }
             if(!statusAdd){
-                uint[] memory emptyArray;
+                //uint[] memory emptyArray;
                 address[] memory amptyAddressArray;
                 itemsList.push(Items(i, listNameOfItems[i], listHashImage[i], listPrice[i], listInformationOfImage[i],  0, 0, amptyAddressArray, StatusSesstion.START, 0, 600));
                 index++;

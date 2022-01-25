@@ -61,8 +61,8 @@ contract TokenERC20 is ERC20Interface, SafeMath {
         name = "Ethereum";
         decimals = 0;
         _totalSupply = 200;
-        balances[0xd4CfcB5Db84c93D8dD7303b82F31f11A4CbfE803] = _totalSupply;
-        emit Transfer(address(0), 0xd4CfcB5Db84c93D8dD7303b82F31f11A4CbfE803, _totalSupply);
+        balances[0x5bD4ECAa08dFA56423c0E83546e979e386003ccC] = _totalSupply;
+        emit Transfer(address(0), 0x5bD4ECAa08dFA56423c0E83546e979e386003ccC, _totalSupply);
     }
  
     function totalSupply() public override view returns (uint) {
@@ -74,7 +74,7 @@ contract TokenERC20 is ERC20Interface, SafeMath {
     }
  
     function transfer(address to, uint tokens) public override returns (bool success) {
-        address admin = 0xd4CfcB5Db84c93D8dD7303b82F31f11A4CbfE803;
+        address admin = 0x5bD4ECAa08dFA56423c0E83546e979e386003ccC;
         balances[admin] = safeSub(balances[admin], tokens);
         balances[to] = safeAdd(balances[to], tokens);
         emit Transfer(admin, to, tokens);
